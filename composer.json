@@ -1,5 +1,5 @@
 {
-    "name": "novadwik/php-sipwise-api",
+    "name": "nophaa/php-sipwise-api",
     "type": "library",
     "description": "Sipwise API client",
     "keywords": ["sipwise", "api"],
