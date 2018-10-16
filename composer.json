@@ -34,6 +34,8 @@
     "autoload-dev": {
         "psr-4": { "Sipwise\\Tests\\": "test/Sipwise/Tests/" }
     },
+    "minimum-stability": "dev",
+    "prefer-stable": true,
     "extra": {
         "branch-alias": {
              "dev-master": "1.0.x-dev"
