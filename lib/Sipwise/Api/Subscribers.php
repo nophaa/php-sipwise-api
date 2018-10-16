@@ -1,17 +1,17 @@
-<?php namespace Sipwise\Api;
+<?php
 
+namespace Sipwise\Api;
+
+use Sipwise\Api\subscriber\SubscriberPreferences;
 use Symfony\Component\OptionsResolver\Exception\InvalidOptionsException;
 use Symfony\Component\OptionsResolver\Exception\UndefinedOptionsException;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-use Sipwise\Api\subscriber\SubscriberPreferences;
-
 /**
- * Description of Subscribers
+ * Description of Subscribers.
  *
  * @author Nova Kurniawan <novadwikurniawan@gmail.com>
  */
-
 class Subscribers extends AbstractApi
 {
     /**
@@ -43,43 +43,43 @@ class Subscribers extends AbstractApi
         $resolver = $this->createOptionsResolver();
         $resolver->setDefined('profile_id')
             ->setAllowedTypes('profile_id', 'integer');
-        
+
         $resolver->setDefined('username')
-            ->setAllowedTypes('username', array('integer','string'));
-        
+            ->setAllowedTypes('username', ['integer', 'string']);
+
         $resolver->setDefined('webusername')
             ->setAllowedTypes('webusername', 'string');
-        
+
         $resolver->setDefined('webpassword')
             ->setAllowedTypes('webpassword', 'string');
-        
+
         $resolver->setDefined('domain')
             ->setAllowedTypes('domain', 'string');
-        
+
         $resolver->setDefined('customer_id')
-            ->setAllowedTypes('customer_id', array('integer','string'));
-        
+            ->setAllowedTypes('customer_id', ['integer', 'string']);
+
         $resolver->setDefined('customer_external_id')
             ->setAllowedTypes('customer_external_id', 'integer');
-        
+
         $resolver->setDefined('subscriber_external_id')
             ->setAllowedTypes('subscriber_external_id', 'integer');
-        
+
         $resolver->setDefined('reseller_id')
             ->setAllowedTypes('reseller_id', 'integer');
-        
+
         $resolver->setDefined('alias')
-            ->setAllowedTypes('alias', array('integer', 'string'));
-        
+            ->setAllowedTypes('alias', ['integer', 'string']);
+
         $resolver->setDefined('order_by')
             ->setAllowedTypes('order_by', 'string');
-        
+
         $resolver->setDefined('order_by_direction')
             ->setAllowedTypes('order_by_direction', 'string');
 
         return $this->get('/api/subscribers/', $resolver->resolve($parameters));
     }
-    
+
     public function preferences()
     {
         return new SubscriberPreferences($this->client);
@@ -87,11 +87,12 @@ class Subscribers extends AbstractApi
 
     /**
      * @param int|string $subscription_id
-     * @param array $parameters {
+     * @param array      $parameters      {
      *
      *     @var bool   $statistics                    Include project statistics.
      *     @var bool   $with_custom_attributes        Include project custom attributes.
      * }
+     *
      * @return mixed
      */
     public function show($subscriber_id = null)
@@ -101,66 +102,69 @@ class Subscribers extends AbstractApi
 
     /**
      * @param string $name
-     * @param array $params
+     * @param array  $params
+     *
      * @return mixed
      */
-    public function create(array $parameters = array())
+    public function create(array $parameters = [])
     {
         $resolver = $this->createOptionsResolver($parameters);
-        
+
         $resolver->setDefined('customer_id')
             ->setAllowedTypes('customer_id', 'integer');
-        
+
         $resolver->setDefined('domain_id')
             ->setAllowedTypes('domain_id', 'integer');
-        
+
         $resolver->setDefined('username')
-            ->setAllowedTypes('username', array('integer','string'));
-        
+            ->setAllowedTypes('username', ['integer', 'string']);
+
         $resolver->setDefined('password')
             ->setAllowedTypes('password', 'string');
-        
+
         $resolver->setRequired(['customer_id', 'domain_id', 'password', 'username']);
-        
+
         return $this->post('/api/subscribers/', $resolver->resolve($parameters));
     }
 
     /**
-     * @param int $subscriber_id
+     * @param int   $subscriber_id
      * @param array $parameters
+     *
      * @return mixed
      */
     public function update($subscriber_id, array $parameters)
     {
         $resolver = $this->createOptionsResolver($parameters);
-        
-        $resolver->setRequired(['customer_id','domain_id', 'password', 'username']);
-        
+
+        $resolver->setRequired(['customer_id', 'domain_id', 'password', 'username']);
+
         return $this->put('/api/subscribers/'.$this->encodePath($subscriber_id), $resolver->resolve($parameters));
     }
-    
+
     public function edit($subscriber_id, array $parameters)
     {
         $resolver = new OptionsResolver();
 
         $resolver->setDefined('op')
-            ->setAllowedTypes('op', 'string')->setAllowedValues('op',['remove', 'add', 'replace', 'move', 'copy']);
-        
+            ->setAllowedTypes('op', 'string')->setAllowedValues('op', ['remove', 'add', 'replace', 'move', 'copy']);
+
         $resolver->setDefined('path')
             ->setAllowedTypes('path', 'string');
-        
+
         $resolver->setDefined('value')
-            ->setAllowedTypes('value', ['integer','string', 'bool']);
-        
-        foreach($parameters as $param){
+            ->setAllowedTypes('value', ['integer', 'string', 'bool']);
+
+        foreach ($parameters as $param) {
             $resolver->resolve($param);
         }
-        
+
         return $this->patch('/api/subscribers/'.$this->encodePath($subscriber_id), $parameters);
     }
 
     /**
      * @param int $subscriber_id
+     *
      * @return mixed
      */
     public function remove($subscriber_id)

@@ -12,6 +12,7 @@ class ResponseMediator
     /**
      * Return the response body as a string or json array if content type is application/json.
      *.
+     *
      * @param ResponseInterface $response
      *
      * @return array|string
@@ -20,11 +21,11 @@ class ResponseMediator
     {
         $body = $response->getBody()->__toString();
         $statusCode = $response->getStatusCode();
-        if (in_array($statusCode, [201,204])){
+        if (in_array($statusCode, [201, 204])) {
             $location_header = self::getHeader($response, 'Location');
             $created_id = basename($location_header);
             $body = ['header' => self::getHeaders($response)];
-            if (!empty($created_id)){
+            if (!empty($created_id)) {
                 $body['created_id'] = $created_id;
             }
         }
@@ -48,11 +49,11 @@ class ResponseMediator
     public static function getPagination(ResponseInterface $response)
     {
         if (!$response->hasHeader('Link')) {
-            return null;
+            return;
         }
 
         $header = self::getHeader($response, 'Link');
-        $pagination = array();
+        $pagination = [];
         foreach (explode(',', $header) as $link) {
             preg_match('/<(.*)>; rel="(.*)"/i', trim($link, ','), $match);
 
@@ -63,12 +64,11 @@ class ResponseMediator
 
         return $pagination;
     }
-    
+
     /**
      * Get the value for all headers.
      *
      * @param ResponseInterface $response
-     * 
      *
      * @return string|null
      */
@@ -81,7 +81,7 @@ class ResponseMediator
      * Get the value for a single header.
      *
      * @param ResponseInterface $response
-     * @param string $name
+     * @param string            $name
      *
      * @return string|null
      */

@@ -1,8 +1,9 @@
 <?php
+
 namespace Sipwise\Exception;
 
 /**
- * Description of InvalidaArgumentException
+ * Description of InvalidaArgumentException.
  *
  * @author myrepubliclabs
  */

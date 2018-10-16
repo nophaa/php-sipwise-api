@@ -1,8 +1,9 @@
 <?php
+
 namespace Sipwise\Exception;
 
 /**
- * Description of ValidatiorFailedException
+ * Description of ValidatiorFailedException.
  *
  * @author myrepubliclabs
  */

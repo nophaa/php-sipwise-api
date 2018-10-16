@@ -1,16 +1,18 @@
-<?php namespace Sipwise\Api;
+<?php
 
-use Sipwise\Client;
-use Sipwise\HttpClient\Message\QueryStringBuilder;
-use Sipwise\HttpClient\Message\ResponseMediator;
+namespace Sipwise\Api;
+
 use Http\Discovery\StreamFactoryDiscovery;
 use Http\Message\StreamFactory;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\StreamInterface;
+use Sipwise\Client;
+use Sipwise\HttpClient\Message\QueryStringBuilder;
+use Sipwise\HttpClient\Message\ResponseMediator;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 /**
- * Abstract class for Api classes
+ * Abstract class for Api classes.
  *
  * @author Joseph Bielawski <stloyd@gmail.com>
  * @author Matt Humphrey <matt@m4tt.co>
@@ -20,7 +22,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 abstract class AbstractApi implements ApiInterface
 {
     /**
-     * The client
+     * The client.
      *
      * @var Client
      */
@@ -32,7 +34,7 @@ abstract class AbstractApi implements ApiInterface
     private $streamFactory;
 
     /**
-     * @param Client $client
+     * @param Client             $client
      * @param StreamFactory|null $streamFactory
      */
     public function __construct(Client $client, StreamFactory $streamFactory = null)
@@ -54,36 +56,39 @@ abstract class AbstractApi implements ApiInterface
      * Performs a GET query and returns the response as a PSR-7 response object.
      *
      * @param string $path
-     * @param array $parameters
-     * @param array $requestHeaders
+     * @param array  $parameters
+     * @param array  $requestHeaders
+     *
      * @return ResponseInterface
      */
-    protected function getAsResponse($path, array $parameters = array(), $requestHeaders = array())
+    protected function getAsResponse($path, array $parameters = [], $requestHeaders = [])
     {
         $preparedPath = $this->preparePath($path, $parameters);
-        
+
         return $this->client->getHttpClient()->get($preparedPath, $requestHeaders);
     }
 
     /**
      * @param string $path
-     * @param array $parameters
-     * @param array $requestHeaders
+     * @param array  $parameters
+     * @param array  $requestHeaders
+     *
      * @return mixed
      */
-    protected function get($path, array $parameters = array(), $requestHeaders = array())
+    protected function get($path, array $parameters = [], $requestHeaders = [])
     {
         return ResponseMediator::getContent($this->getAsResponse($path, $parameters, $requestHeaders));
     }
 
     /**
      * @param string $path
-     * @param array $parameters
-     * @param array $requestHeaders
-     * @param array $files
+     * @param array  $parameters
+     * @param array  $requestHeaders
+     * @param array  $files
+     *
      * @return mixed
      */
-    protected function post($path, array $parameters = array(), $requestHeaders = array())
+    protected function post($path, array $parameters = [], $requestHeaders = [])
     {
         $preparedPath = $this->preparePath($path);
 
@@ -95,20 +100,22 @@ abstract class AbstractApi implements ApiInterface
         }
 
         $response = $this->client->getHttpClient()->post($preparedPath, $requestHeaders, $body);
-        
-        if (empty(ResponseMediator::getContent($response))){
+
+        if (empty(ResponseMediator::getContent($response))) {
             return ResponseMediator::getHeaders($response);
         }
+
         return ResponseMediator::getContent($response);
     }
 
     /**
      * @param string $path
-     * @param array $parameters
-     * @param array $requestHeaders
+     * @param array  $parameters
+     * @param array  $requestHeaders
+     *
      * @return mixed
      */
-    protected function put($path, array $parameters = array(), $requestHeaders = array())
+    protected function put($path, array $parameters = [], $requestHeaders = [])
     {
         $preparedPath = $this->preparePath($path);
 
@@ -123,14 +130,15 @@ abstract class AbstractApi implements ApiInterface
 
         return ResponseMediator::getContent($response);
     }
-    
+
     /**
      * @param string $path
-     * @param array $parameters
-     * @param array $requestHeaders
+     * @param array  $parameters
+     * @param array  $requestHeaders
+     *
      * @return mixed
      */
-    protected function patch($path, array $parameters = array(), $requestHeaders = array())
+    protected function patch($path, array $parameters = [], $requestHeaders = [])
     {
         $preparedPath = $this->preparePath($path);
 
@@ -148,11 +156,12 @@ abstract class AbstractApi implements ApiInterface
 
     /**
      * @param string $path
-     * @param array $parameters
-     * @param array $requestHeaders
+     * @param array  $parameters
+     * @param array  $requestHeaders
+     *
      * @return mixed
      */
-    protected function delete($path, array $parameters = array(), $requestHeaders = array())
+    protected function delete($path, array $parameters = [], $requestHeaders = [])
     {
         $preparedPath = $this->preparePath($path, $parameters);
 
@@ -163,6 +172,7 @@ abstract class AbstractApi implements ApiInterface
 
     /**
      * @param string $path
+     *
      * @return string
      */
     protected function encodePath($path)
@@ -180,9 +190,9 @@ abstract class AbstractApi implements ApiInterface
     protected function createOptionsResolver(array $parameters = [])
     {
         $resolver = new OptionsResolver();
-        
+
         $resolver->setDefined(array_keys($parameters));
-        
+
         $resolver->setDefined('page')
             ->setAllowedTypes('page', 'int')
             ->setAllowedValues('page', function ($value) {
@@ -193,30 +203,30 @@ abstract class AbstractApi implements ApiInterface
             ->setAllowedValues('rows', function ($value) {
                 return $value > 0 && $value <= 100;
             });
-            
+
         $resolver->setDefined('order_by')
             ->setAllowedTypes('order_by', 'string');
-        
+
         $resolver->setDefined('order_by_direction')
             ->setAllowedTypes('order_by_direction', 'string');
 
         return $resolver;
     }
-    
+
     protected function createEditOptionsResolver(array $parameters = [])
     {
         $resolver = new OptionsResolver();
 
         $resolver->setDefined('op')
-            ->setAllowedTypes('op', 'string')->setAllowedValues('op',['remove', 'add', 'replace', 'move', 'copy']);
-        
+            ->setAllowedTypes('op', 'string')->setAllowedValues('op', ['remove', 'add', 'replace', 'move', 'copy']);
+
         $resolver->setDefined('path')
             ->setAllowedTypes('path', 'string');
-        
+
         $resolver->setDefined('value')
-            ->setAllowedTypes('value', ['integer','string', 'bool']);
-        
-        foreach($parameters as $parameter){
+            ->setAllowedTypes('value', ['integer', 'string', 'bool']);
+
+        foreach ($parameters as $parameter) {
             $resolver->resolve($parameter);
         }
 
@@ -225,12 +235,14 @@ abstract class AbstractApi implements ApiInterface
 
     /**
      * @param array $parameters
+     *
      * @return StreamInterface
      */
     private function prepareBody(array $parameters = [])
     {
         $raw = json_encode($parameters);
         $stream = $this->streamFactory->createStream($raw);
+
         return $stream;
     }
 

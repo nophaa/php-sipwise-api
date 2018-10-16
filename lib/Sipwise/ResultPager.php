@@ -1,10 +1,12 @@
-<?php namespace Sipwise;
+<?php
+
+namespace Sipwise;
 
 use Sipwise\Api\ApiInterface;
 use Sipwise\HttpClient\Message\ResponseMediator;
 
 /**
- * Pager class for supporting pagination in Sipwise classes
+ * Pager class for supporting pagination in Sipwise classes.
  */
 class ResultPager implements ResultPagerInterface
 {
@@ -15,14 +17,13 @@ class ResultPager implements ResultPagerInterface
 
     /**
      * The Sipwise client to use for pagination. This must be the same
-     * instance that you got the Api instance from, i.e.:
+     * instance that you got the Api instance from, i.e.:.
      *
      * $client = new \Sipwise\Client();
      * $api = $client->api('someApi');
      * $pager = new \Sipwise\ResultPager($client);
      *
      * @param \Sipwise\Client $client
-     *
      */
     public function __construct(Client $client)
     {
@@ -32,17 +33,17 @@ class ResultPager implements ResultPagerInterface
     /**
      * {@inheritdoc}
      */
-    public function fetch(ApiInterface $api, $method, array $parameters = array())
+    public function fetch(ApiInterface $api, $method, array $parameters = [])
     {
-        return call_user_func_array(array($api, $method), $parameters);
+        return call_user_func_array([$api, $method], $parameters);
     }
 
     /**
      * {@inheritdoc}
      */
-    public function fetchAll(ApiInterface $api, $method, array $parameters = array())
+    public function fetchAll(ApiInterface $api, $method, array $parameters = [])
     {
-        $result = call_user_func_array(array($api, $method), $parameters);
+        $result = call_user_func_array([$api, $method], $parameters);
         while ($this->hasNext()) {
             $result = array_merge($result, $this->fetchNext());
         }
