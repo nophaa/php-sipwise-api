@@ -195,12 +195,12 @@ abstract class AbstractApi implements ApiInterface
 
         $resolver->setDefined('page')
             ->setAllowedTypes('page', 'int')
-            ->setAllowedValues('page', function ($value) {
+            ->setAllowedValues('page', function($value) {
                 return $value > 0;
             });
         $resolver->setDefined('rows')
             ->setAllowedTypes('rows', 'int')
-            ->setAllowedValues('rows', function ($value) {
+            ->setAllowedValues('rows', function($value) {
                 return $value > 0 && $value <= 100;
             });
 
