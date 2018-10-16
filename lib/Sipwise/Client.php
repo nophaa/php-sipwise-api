@@ -2,18 +2,18 @@
 
 namespace Sipwise;
 
-use Sipwise\Api\ApiInterface;
-use Sipwise\Exception\BadMethodCallException;
-use Sipwise\Exception\InvalidArgumentException;
-use Sipwise\HttpClient\Builder;
-use Sipwise\HttpClient\Plugin\Authentication;
-use Sipwise\HttpClient\Plugin\SipwiseExceptionThrower;
-use Sipwise\HttpClient\Plugin\History;
 use Http\Client\Common\HttpMethodsClient;
 use Http\Client\Common\Plugin;
 use Http\Client\HttpClient;
 use Http\Discovery\UriFactoryDiscovery;
 use Psr\Cache\CacheItemPoolInterface;
+use Sipwise\Api\ApiInterface;
+use Sipwise\Exception\BadMethodCallException;
+use Sipwise\Exception\InvalidArgumentException;
+use Sipwise\HttpClient\Builder;
+use Sipwise\HttpClient\Plugin\Authentication;
+use Sipwise\HttpClient\Plugin\History;
+use Sipwise\HttpClient\Plugin\SipwiseExceptionThrower;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 /**
@@ -21,7 +21,6 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
  *
  *
  * @author Nova Kurniawan <novadwikurniawan@gmail.com>
- *
  */
 class Client
 {
@@ -45,12 +44,12 @@ class Client
      * @var History
      */
     private $responseHistory;
-    
+
     /**
      * @var Options Resolver for sipwise default config
      */
     private $options;
-    
+
     /**
      * Instantiate a new Sipwise client.
      *
@@ -58,12 +57,13 @@ class Client
      * @param string|null  $apiVersion
      * @param string|null  $enterpriseUrl
      */
-    public function __construct(Builder $httpClientBuilder = null, array $config = []){
+    public function __construct(Builder $httpClientBuilder = null, array $config = [])
+    {
         $resolver = new OptionsResolver();
         $this->configureOptions($resolver);
-        
+
         $this->options = $resolver->resolve($config);
-        
+
         $this->responseHistory = new History();
         $this->httpClientBuilder = $builder = $httpClientBuilder ?: new Builder();
 
@@ -76,15 +76,17 @@ class Client
         $builder->addHeaderValue('Accept', 'application/json');
         $builder->addHeaderValue('Prefer', $this->options['return']);
     }
-    
-    private function configureOptions(OptionsResolver $resolver){
-        $resolver->setDefaults(array(
+
+    private function configureOptions(OptionsResolver $resolver)
+    {
+        $resolver->setDefaults([
             'schema' => 'https',
             'return' => 'return=representation',
-            'port' => 1443,
-        ));
+            'port'   => 1443,
+        ]);
         $resolver->addAllowedValues('schema', ['http', 'https']);
     }
+
     /**
      * Create a Sipwise\Client using a HttpClient.
      *
@@ -109,7 +111,7 @@ class Client
     public function api($name)
     {
         switch ($name) {
-            
+
             case 'customer':
             case 'customers':
                 $api = new Api\Customers($this);
@@ -161,8 +163,9 @@ class Client
         $this->getHttpClientBuilder()->removePlugin(Authentication::class);
         $this->getHttpClientBuilder()->addPlugin(new Authentication($tokenOrLogin, $password, $authMethod));
     }
-    
-    public function setUrl($url){
+
+    public function setUrl($url)
+    {
         $this->getHttpClientBuilder()->removePlugin(AddHostPlugin::class);
         $this->getHttpClientBuilder()->addPlugin(new Plugin\AddHostPlugin(UriFactoryDiscovery::find()->createUri($url)));
     }

@@ -2,12 +2,12 @@
 
 namespace Sipwise\HttpClient\Plugin;
 
-use Sipwise\Exception\ErrorException;
-use Sipwise\Exception\RuntimeException;
-use Sipwise\HttpClient\Message\ResponseMediator;
 use Http\Client\Common\Plugin;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
+use Sipwise\Exception\ErrorException;
+use Sipwise\Exception\RuntimeException;
+use Sipwise\HttpClient\Message\ResponseMediator;
 
 /**
  * A plugin to remember the last response.
@@ -63,7 +63,7 @@ class SipwiseExceptionThrower implements Plugin
 
         if (is_array($message)) {
             $format = '"%s" %s';
-            $errors = array();
+            $errors = [];
 
             foreach ($message as $field => $messages) {
                 if (is_array($messages)) {
@@ -71,7 +71,7 @@ class SipwiseExceptionThrower implements Plugin
                     foreach ($messages as $error) {
                         $errors[] = sprintf($format, $field, $error);
                     }
-                } elseif (is_integer($field)) {
+                } elseif (is_int($field)) {
                     $errors[] = $messages;
                 } else {
                     $errors[] = sprintf($format, $field, $messages);

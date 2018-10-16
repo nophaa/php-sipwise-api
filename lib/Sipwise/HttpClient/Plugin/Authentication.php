@@ -2,10 +2,10 @@
 
 namespace Sipwise\HttpClient\Plugin;
 
-use Sipwise\Client;
-use Sipwise\Exception\RuntimeException;
 use Http\Client\Common\Plugin;
 use Psr\Http\Message\RequestInterface;
+use Sipwise\Client;
+use Sipwise\Exception\RuntimeException;
 
 /**
  * Add authentication to the request.
@@ -47,7 +47,7 @@ class Authentication implements Plugin
                 $query = $uri->getQuery();
 
                 $parameters = [
-                    'client_id' => $this->tokenOrLogin,
+                    'client_id'     => $this->tokenOrLogin,
                     'client_secret' => $this->password,
                 ];
 

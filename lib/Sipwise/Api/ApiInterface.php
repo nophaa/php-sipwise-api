@@ -1,9 +1,11 @@
-<?php namespace Sipwise\Api;
+<?php
+
+namespace Sipwise\Api;
 
 use Sipwise\Client;
 
 /**
- * Api interface
+ * Api interface.
  */
 interface ApiInterface
 {

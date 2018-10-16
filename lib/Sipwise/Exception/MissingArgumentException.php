@@ -1,8 +1,9 @@
 <?php
+
 namespace Sipwise\Exception;
 
 /**
- * Description of MissingArgumentException
+ * Description of MissingArgumentException.
  *
  * @author myrepubliclabs
  */

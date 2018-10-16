@@ -1,8 +1,9 @@
 <?php
+
 namespace Sipwise\Exception;
 
 /**
- * Description of RuntimeException
+ * Description of RuntimeException.
  *
  * @author myrepubliclabs
  */

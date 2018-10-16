@@ -1,18 +1,18 @@
 <?php
+
 namespace Sipwise\Api\subscriber;
 
+use Sipwise\Api\AbstractApi;
 use Symfony\Component\OptionsResolver\Exception\InvalidOptionsException;
 use Symfony\Component\OptionsResolver\Exception\UndefinedOptionsException;
-use Symfony\Component\OptionsResolver\OptionsResolver;
 
-use Sipwise\Api\AbstractApi;
 /**
- * Description of SubscriberPreferences
+ * Description of SubscriberPreferences.
  *
  * @author Nova Kurniawan <novadwikurniawan@gmail.com>
  */
 class SubscriberPreferences extends AbstractApi
-{   
+{
     /**
      * @param array $parameters {
      *
@@ -32,37 +32,38 @@ class SubscriberPreferences extends AbstractApi
     public function all(array $parameters = [])
     {
         $resolver = $this->createOptionsResolver($parameters);
-        
+
         $resolver->setDefined('reseller_id')
                  ->setAllowedTypes('reseller_id', 'integer');
-        
+
         $resolver->setDefined('contact_id')
                  ->setAllowedTypes('contact_id', 'integer');
-        
+
         $resolver->setDefined('order_by')
             ->setAllowedTypes('order_by', 'string');
-        
+
         $resolver->setDefined('order_by_direction')
             ->setAllowedTypes('order_by_direction', 'string');
-        
+
         return $this->get('/api/subscriberpreferences', $resolver->resolve($parameters));
     }
-    
+
     public function show($subscriberpref_id)
     {
         return $this->get('/api/subscriberpreferences/'.$this->encodePath($subscriberpref_id));
     }
-    
-    public function update($subscriberpref_id, array $parameters = array())
+
+    public function update($subscriberpref_id, array $parameters = [])
     {
         $resolver = $this->createOptionsResolver($parameters);
+
         return $this->put('/api/subscriberpreferences/'.$this->encodePath($subscriberpref_id), $resolver->resolve($parameters));
     }
-    
-    public function edit($subscriberpref_id, array $parameters = array())
+
+    public function edit($subscriberpref_id, array $parameters = [])
     {
         $this->createEditOptionsResolver($parameters);
-        
+
         return $this->patch('/api/subscriberpreferences/'.$this->encodePath($subscriberpref_id), $parameters);
     }
 }
