@@ -20,7 +20,7 @@
         "php-http/httplug": "^1.1",
         "php-http/multipart-stream-builder": "^1.0",
         "php-http/cache-plugin": "^1.4",
-        "symfony/options-resolver": "^2.6 || ^3.0 || ^4.0"
+        "symfony/options-resolver": "^2.6 || ^3.0"
     },
     "require-dev": {
         "guzzlehttp/psr7": "^1.4",
