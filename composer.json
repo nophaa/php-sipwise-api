@@ -26,6 +26,8 @@
         "guzzlehttp/psr7": "^1.4",
         "php-http/guzzle6-adapter": "^1.1",
         "php-http/mock-client": "^1.0",
+        "phpunit/phpunit": "^6.0",
+        "phpunit/php-invoker": "^1.1",
         "donatj/mock-webserver": "^2.0"
     },
     "autoload": {
