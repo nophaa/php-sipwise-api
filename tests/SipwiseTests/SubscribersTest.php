@@ -23,6 +23,11 @@ class SubscribersTest extends TestCase
         unset($this->subscribers);
     }
     
+    public function testInstance()
+    {
+        $this->assertInstanceOf(Subscribers::class, $this->subscribers);
+    }
+    
     public function testAllSubscriber()
     {
         $this->subscribers->expects($this->any())->method('all')->willReturn(json_encode(['subscriber'=>'all']));

@@ -3,7 +3,7 @@ namespace Sipwise\Tests;
 
 
 use PHPUnit\Framework\TestCase;
-use Sipwise\Api\calls;
+use Sipwise\Api\Calls;
 
 /**
  * Description of callsTest
