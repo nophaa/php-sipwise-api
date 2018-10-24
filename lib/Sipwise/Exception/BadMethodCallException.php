@@ -1,9 +1,7 @@
 <?php
-namespace Sipwise\Exception;
 
-use Sipwise\Exception\ExceptionInterface;
+namespace Sipwise\Exception;
 
 class BadMethodCallException extends \BadMethodCallException implements ExceptionInterface
 {
 }
-
