@@ -2,12 +2,14 @@
 
 namespace Sipwise\Exception;
 
+use InvalidArgumentException;
+
 /**
  * Description of MissingArgumentException.
  *
  * @author myrepubliclabs
  */
-class MissingArgumentException extends \MissingArgumentException implements ExceptionInterface
+class MissingArgumentException extends InvalidArgumentException implements ExceptionInterface
 {
     //put your code here
 }

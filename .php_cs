@@ -6,7 +6,8 @@ $finder = PhpCsFixer\Finder::create()
 $config = PhpCsFixer\Config::create()
     ->setRiskyAllowed(true)
     ->setRules([
-
+        '@PSR2' => true,
+        '@Symfony' => true,
     ])
     ->setFinder($finder);
 

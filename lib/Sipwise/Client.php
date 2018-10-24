@@ -4,6 +4,7 @@ namespace Sipwise;
 
 use Http\Client\Common\HttpMethodsClient;
 use Http\Client\Common\Plugin;
+use Http\Client\Common\Plugin\AddHostPlugin;
 use Http\Client\HttpClient;
 use Http\Discovery\UriFactoryDiscovery;
 use Psr\Cache\CacheItemPoolInterface;
@@ -14,6 +15,7 @@ use Sipwise\HttpClient\Builder;
 use Sipwise\HttpClient\Plugin\Authentication;
 use Sipwise\HttpClient\Plugin\History;
 use Sipwise\HttpClient\Plugin\SipwiseExceptionThrower;
+use Symfony\Component\OptionsResolver\Options;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 /**
