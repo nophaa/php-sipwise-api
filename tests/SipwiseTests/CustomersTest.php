@@ -23,12 +23,12 @@ class CustomersTest extends TestCase
     {
         unset($this->customers);
     }
-    
+
     public function testInstance()
     {
         $this->assertInstanceOf(Customers::class, $this->customers);
     }
-    
+
     public function testAllCustomer()
     {
         $this->customers->expects($this->any())->method('all')->willReturn(json_encode(['customer'=>'all']));
